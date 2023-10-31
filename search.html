@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Dictionary Search</title>
+</head>
+
+<body>
+    <h1>Dictionary Search</h1>
+
+    <label for="searchTerm">Search Term:</label>
+    <input type="text" id="searchTerm" placeholder="Enter a word to search"><br><br>
+
+    <button onclick="searchDictionary()">Search</button>
+
+    <!-- Display search results here -->
+    <div id="displayArea"></div>
+    <div class="home-button-container" id="home-button-container">
+        <button onclick="goHome()">Home</button>
+    </div>
+</body>
+<script>
+
+    const message = "Please enter valid word and definition (alphabet letters only)!";
+    const indexHTMLString = "index.html";
+    const DISPLAY_AREA = "displayArea";
+    const SEARCH_TERM = "searchTerm";
+    const GET_STRING = "GET";
+    function goHome() {
+        window.location.href = indexHTMLString;
+    }
+
+    function searchDictionary() {
+        // Set the endpointAPI root here
+        const endPointRoot = "https://comp-4537-lab4-backend.onrender.com/api/";
+        const searchTerm = document.getElementById(SEARCH_TERM).value;
+        const displayArea = document.getElementById(DISPLAY_AREA);
+
+        // Regular expression pattern for alphabet letters only
+        const lettersOnlyRegex = /^[A-Za-z]+$/;
+
+        // Check if searchTerm is not empty and contain only alphabet letters
+        if (searchTerm && lettersOnlyRegex.test(searchTerm)) {
+            // Make xhttp request here
+            const xhttp = new XMLHttpRequest();
+            let params = `?word=${searchTerm}`;
+            xhttp.open(GET_STRING, endPointRoot + params, true);
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    // 200 Response
+                    let response = JSON.parse(this.responseText);
+                    let responseText = response.responseText;
+                    document.getElementById(DISPLAY_AREA).innerHTML = responseText;
+                }
+                if (this.status === 404 && this.readyState == 4) {
+                    // 404 Not Found Response
+                    let response = JSON.parse(this.responseText);
+                    let responseText = response.responseText;
+                    document.getElementById(DISPLAY_AREA).innerHTML = responseText;
+                }
+            };
+            xhttp.send();
+        } else {
+            // Display error message if either word or definition is empty or contains non-alphabet characters
+            document.getElementById(DISPLAY_AREA).innerHTML = message;
+        }
+    }
+</script>
+
+</html>
