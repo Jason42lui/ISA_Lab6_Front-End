@@ -159,15 +159,16 @@
         if (xhr.readyState === XMLHttpRequest.DONE) {
           if (xhr.status === 200) {
             const data = JSON.parse(xhr.responseText);
+            console.log(data);
 
-            data.languages.forEach(function (language) {
+            data.forEach(function (language) {
               const option = document.createElement("option");
-              option.value = language.code;
+            //   option.value = language.language_id;
               option.text = language.name;
               wordLanguage.appendChild(option);
 
               const option2 = document.createElement("option");
-              option2.value = language.code;
+            //   option2.value = language.code;
               option2.text = language.name;
               definitionLanguage.appendChild(option2);
             });
@@ -177,7 +178,7 @@
         }
       };
 
-      xhr.open("GET", `${endPointRoot}/api/v1/languages"`);
+      xhr.open("GET", `${endPointRoot}api/v1/languages`);
       xhr.send();
     });
   </script>
