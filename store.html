@@ -34,7 +34,8 @@
   </body>
 
   <script>
-    const message = "Please enter valid word and definition (alphabet letters only)!";
+    const message =
+      "Please enter valid word and definition (alphabet letters only)!";
     const indexHTMLString = "index.html";
     const CONTENT_TYPE_STRING = "Content-Type";
     const APPLICATION_JSON_STRING = "application/json";
@@ -55,6 +56,9 @@
     const definition = document.getElementById(DEFINITION_STRING).value;
     const wordLanguage = document.getElementById("wordLanguage").value;
     const definitionLanguage = document.getElementById("definitionLanguage").value;
+    const wordLanguageSelect = document.getElementById("wordLanguage");
+    const definitionLanguageSelect = document.getElementById("definitionLanguage");
+
 
     function goHome() {
       window.location.href = indexHTMLString;
@@ -163,14 +167,12 @@
 
             data.forEach(function (language) {
               const option = document.createElement("option");
-            //   option.value = language.language_id;
-              option.text = language.name;
-              wordLanguage.appendChild(option);
+              option.text = language.language_name;
+              wordLanguageSelect.add(option);
 
               const option2 = document.createElement("option");
-            //   option2.value = language.code;
-              option2.text = language.name;
-              definitionLanguage.appendChild(option2);
+              option2.text = language.language_name;
+              definitionLanguageSelect.add(option2);
             });
           } else {
             console.error("Error fetching languages:", xhr.status);
@@ -178,7 +180,7 @@
         }
       };
 
-      xhr.open("GET", `${endPointRoot}api/v1/languages`);
+      xhr.open("GET", "https://briankjkim.com/isalab6/api/v1/languages");
       xhr.send();
     });
   </script>
