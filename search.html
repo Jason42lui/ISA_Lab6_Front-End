@@ -3,7 +3,6 @@
 
 <head>
     <title>Dictionary Search</title>
-    <script src="searchStrings.js"></script>
 </head>
 
 <body>
@@ -20,35 +19,35 @@
     </div>
 </body>
 <script>
-    console.log(messages)
+    
     function goHome() {
-        window.location.href = messages.indexHTMLString;
+        window.location.href = "index.html";
     }
 
     function searchDictionary() {
-        const searchTerm = document.getElementById(messages.searchTerm).value;
+        const searchTerm = document.getElementById("searchTerm").value;
 
         if (searchTerm) {
             // Make xhttp request here
             const xhttp = new XMLHttpRequest();
-            xhttp.open(messages.getString, messages.endPointRoot + searchTerm, true);
+            xhttp.open("GET", `https://briankjkim.com/isalab6/api/v1/definition/${searchTerm}`, true);
             xhttp.onreadystatechange = function () {
                 if (this.readyState == 4) {
                     if (this.status == 200) {
                         // 200 Response
-                        document.getElementById(messages.displayArea).innerHTML = this.responseText;
+                        document.getElementById("displayArea").innerHTML = this.responseText;
                     } else if (this.status == 404) {
                         // 404 Not Found Response
-                        document.getElementById(messages.displayArea).innerHTML = responseText;
+                        document.getElementById("displayArea").innerHTML = this.responseText;
                     } else {
-                        document.getElementById(messages.displayArea).innerHTML = responseText;
+                        document.getElementById("displayArea").innerHTML = this.responseText;
                     }
                 }
             };
             xhttp.send();
         } else {
             // Display error message if either word or definition is empty or contains non-alphabet characters
-            document.getElementById(messages.displayArea).innerHTML = message;
+            document.getElementById("displayArea").innerHTML = message;
         }
     }
 

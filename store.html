@@ -36,14 +36,14 @@
 
 <script>
     function goHome() {
-        window.location.href = storeStrings.indexHTMLString;
+        window.location.href = "index.html";
     }
 
     function submitDefinition() {
-        const word = document.getElementById(storeStrings.WORD_STRING).value;
-        const definition = document.getElementById(storeStrings.DEFINITION_STRING).value;
-        const wordLanguage = document.getElementById(storeStrings.WORD_LANGUAGE_STRING).value;
-        const definitionLanguage = document.getElementById(storeStrings.DEFINITION_LANGUAGE_STRING).value;
+        const word = document.getElementById("word").value;
+        const definition = document.getElementById("definition").value;
+        const wordLanguage = document.getElementById("wordLanguage").value;
+        const definitionLanguage = document.getElementById("definitionLanguage").value;
         // Check if word and definition are not empty and perform basic input validation
         if (
             word &&
@@ -59,8 +59,8 @@
 
             // Make xhttp request here
             const xhttp = new XMLHttpRequest();
-            xhttp.open(storeStrings.POST_STRING, `${storeStrings.endPointRoot}${storeStrings.SUBMIT_UPDATE_DELETE_PATH}`, true);
-            xhttp.setRequestHeader(storeStrings.CONTENT_TYPE_STRING, storeStrings.APPLICATION_JSON_STRING);
+            xhttp.open("POST", "https://briankjkim.com/isalab6/api/v1/definition/", true);
+            xhttp.setRequestHeader("Content-Type", "application/json");
             xhttp.send(JSON.stringify(params));
             xhttp.onreadystatechange = () => {
                 if (xhttp.readyState == 4 && xhttp.status == 200) {
@@ -68,24 +68,24 @@
                     // let responseData = JSON.parse(xhttp.responseText);
                     // let responseText = responseData.responseText;
                     // console.log("response Data", responseData);
-                    document.getElementById(storeStrings.WORD_STRING).value = storeStrings.EMPTY_STRING;
-                    document.getElementById(storeStrings.DEFINITION_STRING).value = storeStrings.EMPTY_STRING;
-                    document.getElementById(storeStrings.FEED_BACK_STRING).innerHTML = xhttp.responseText;
+                    document.getElementById("word").value = "";
+                    document.getElementById("definition").value = "";
+                    document.getElementById("feedback").innerHTML = xhttp.responseText;
                 }
             };
         } else {
             // Display error message if either word or definition is empty or contains non-alphabet characters
-            document.getElementById(storeStrings.WORD_STRING).value = storeStrings.EMPTY_STRING;
-            document.getElementById(storeStrings.DEFINITION_STRING).value = storeStrings.EMPTY_STRING;
-            document.getElementById(storeStrings.FEED_BACK_STRING).innerHTML =  storeStrings.message;
+            document.getElementById("word").value = "";
+            document.getElementById("definition").value = "";
+            document.getElementById("feedback").innerHTML =  storeStrings.message;
         }
     }
 
     function updateDefinition() {
-        const word = document.getElementById(storeStrings.WORD_STRING).value;
-        const definition = document.getElementById(storeStrings.DEFINITION_STRING).value;
-        const wordLanguage = document.getElementById(storeStrings.WORD_LANGUAGE_STRING).value;
-        const definitionLanguage = document.getElementById(storeStrings.DEFINITION_LANGUAGE_STRING).value;
+        const word = document.getElementById("word").value;
+        const definition = document.getElementById("definition").value;
+        const wordLanguage = document.getElementById("wordLanguage").value;
+        const definitionLanguage = document.getElementById("definitionLanguage").value;
         if (
             word &&
             definition
@@ -98,47 +98,47 @@
             };
 
             const xhttp = new XMLHttpRequest();
-            xhttp.open(storeStrings.PATCH_STRING, `${storeStrings.endPointRoot}${storeStrings.SUBMIT_UPDATE_DELETE_PATH}`, true);
-            xhttp.setRequestHeader(storeStrings.CONTENT_TYPE_STRING, storeStrings.APPLICATION_JSON_STRING);
+            xhttp.open("PATCH", "https://briankjkim.com/isalab6/api/v1/definition/", true);
+            xhttp.setRequestHeader("Content-Type", "application/json");
             xhttp.send(JSON.stringify(params));
             xhttp.onreadystatechange = () => {
                 if (xhttp.readyState == 4 && xhttp.status == 200) {
-                    document.getElementById(storeStrings.FEED_BACK_STRING).innerHTML = xhttp.responseText;
+                    document.getElementById("feedback").innerHTML = xhttp.responseText;
                 }
             };
         } else {
-            document.getElementById(storeStrings.FEED_BACK_STRING).innerHTML = storeStrings.message;
+            document.getElementById("feedback").innerHTML = storeStrings.message;
         }
     }
 
     function deleteDefinition() {
-        const word = document.getElementById(storeStrings.WORD_STRING).value;
-        const definition = document.getElementById(storeStrings.DEFINITION_STRING).value;
-        const wordLanguage = document.getElementById(storeStrings.WORD_LANGUAGE_STRING).value;
-        const definitionLanguage = document.getElementById(storeStrings.DEFINITION_LANGUAGE_STRING).value;
+        const word = document.getElementById("word").value;
+        const definition = document.getElementById("definition").value;
+        const wordLanguage = document.getElementById("wordLanguage").value;
+        const definitionLanguage = document.getElementById("definitionLanguage").value;
         if (word) {
             const xhttp = new XMLHttpRequest();
-            const url = `${storeStrings.endPointRoot}${storeStrings.SUBMIT_UPDATE_DELETE_PATH}${word}`;
-            xhttp.open(storeStrings.DELETE_STRING, url, true);
+            const url = `https://briankjkim.com/isalab6/api/v1/definition/${word}`;
+            xhttp.open("DELETE", url, true);
             xhttp.send();
             xhttp.onreadystatechange = () => {
                 if (xhttp.readyState == 4) {
                     if (xhttp.status == 200) {
-                        document.getElementById(storeStrings.FEED_BACK_STRING).innerHTML = xhttp.responseText;
+                        document.getElementById("feedback").innerHTML = xhttp.responseText;
                     } else {
-                        document.getElementById(storeStrings.FEED_BACK_STRING).innerHTML = storeStrings.ENTRY_NOT_FOUND_MESSAGE;
+                        document.getElementById("feedback").innerHTML = storeStrings.ENTRY_NOT_FOUND_MESSAGE;
                     }
                 }
             };
         } else {
-            document.getElementById(storeStrings.FEED_BACK_STRING).innerHTML = storeStrings.message;
+            document.getElementById("feedback").innerHTML = storeStrings.message;
         }
     }
 
-    document.addEventListener(storeStrings.DOM_STRING, function () {
+    document.addEventListener("DOMContentLoaded", function () {
         const xhr = new XMLHttpRequest();
-        const wordLanguageSelect = document.getElementById(storeStrings.WORD_LANGUAGE_STRING);
-        const definitionLanguageSelect = document.getElementById(storeStrings.DEFINITION_LANGUAGE_STRING);
+        const wordLanguageSelect = document.getElementById("wordLanguage");
+        const definitionLanguageSelect = document.getElementById("definitionLanguage");
 
         xhr.onreadystatechange = function () {
             if (xhr.readyState === XMLHttpRequest.DONE) {
@@ -147,11 +147,11 @@
                     console.log(data);
 
                     data.forEach(function (language) {
-                        const option = document.createElement(storeStrings.OPTION_STRING);
+                        const option = document.createElement("option");
                         option.text = language.language_name;
                         wordLanguageSelect.add(option);
 
-                        const option2 = document.createElement(storeStrings.OPTION_STRING);
+                        const option2 = document.createElement("option");
                         option2.text = language.language_name;
                         definitionLanguageSelect.add(option2);
                     });
@@ -160,7 +160,7 @@
                 }
             }
         };
-        xhr.open(storeStrings.GET_STRING, `${storeStrings.endPointRoot}${storeStrings.LANGUAGE_PATH}`);
+        xhr.open("GET", "https://briankjkim.com/isalab6/api/v1/languages");
         xhr.send();
     });
 </script>
