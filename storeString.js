@@ -1,4 +1,4 @@
-const storeStrings = {
+export const storeStrings = {
     message: "Please enter valid word and definition (alphabet letters only)!",
     indexHTMLString: "index.html",
     CONTENT_TYPE_STRING: "Content-Type",

@@ -1,4 +1,4 @@
-const messages = {
+export const messages = {
     invalidInput: "Please enter valid word and definition (alphabet letters only)!",
     indexHTMLString: "index.html",
     displayArea: "displayArea",
