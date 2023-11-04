@@ -35,37 +35,39 @@
     }
 
     function searchDictionary() {
+        const searchTerm = document.getElementById(SEARCH_TERM).value;
+        const displayArea = document.getElementById(DISPLAY_AREA);
 
-    // Regular expression pattern for alphabet letters only
-    const lettersOnlyRegex = /^[A-Za-z]+$/;
+        // Regular expression pattern for alphabet letters only
+        // const lettersOnlyRegex = /^[A-Za-z]+$/;
 
-    // Check if searchTerm is not empty and contain only alphabet letters
-    if (searchTerm && lettersOnlyRegex.test(searchTerm)) {
-        // Make xhttp request here
-        const xhttp = new XMLHttpRequest();
-        xhttp.open(GET_STRING, endPointRoot + searchTerm, true);
-        xhttp.onreadystatechange = function () {
-            if (this.readyState == 4) {
-                if (this.status == 200) {
-                    // 200 Response
-                    let responseText = this.responseText;
-                    document.getElementById(DISPLAY_AREA).innerHTML = responseText;
-                } else if (this.status == 404) {
-                    // 404 Not Found Response
-                    let responseText = "Could not find the entry.";
-                    document.getElementById(DISPLAY_AREA).innerHTML = responseText;
-                } else {
-                    let responseText = "Something went wrong.";
-                    document.getElementById(DISPLAY_AREA).innerHTML = responseText;
+        // Check if searchTerm is not empty and contain only alphabet letters
+        if (searchTerm) {
+            // Make xhttp request here
+            const xhttp = new XMLHttpRequest();
+            xhttp.open(GET_STRING, endPointRoot + searchTerm, true);
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4) {
+                    if (this.status == 200) {
+                        // 200 Response
+                        let responseText = this.responseText;
+                        document.getElementById(DISPLAY_AREA).innerHTML = responseText;
+                    } else if (this.status == 404) {
+                        // 404 Not Found Response
+                        let responseText = "Could not find the entry.";
+                        document.getElementById(DISPLAY_AREA).innerHTML = responseText;
+                    } else {
+                        let responseText = "Something went wrong.";
+                        document.getElementById(DISPLAY_AREA).innerHTML = responseText;
+                    }
                 }
-            }
-        };
-        xhttp.send();
-    } else {
-        // Display error message if either word or definition is empty or contains non-alphabet characters
-        document.getElementById(DISPLAY_AREA).innerHTML = message;
+            };
+            xhttp.send();
+        } else {
+            // Display error message if either word or definition is empty or contains non-alphabet characters
+            document.getElementById(DISPLAY_AREA).innerHTML = message;
+        }
     }
-}
 
 </script>
 

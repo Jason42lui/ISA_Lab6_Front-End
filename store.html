@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Dictionary Store</title>
-  </head>
 
-  <body>
+<head>
+    <title>Dictionary Store</title>
+</head>
+
+<body>
     <h1>Dictionary Store</h1>
 
     <label for="word">Word:</label>
@@ -29,13 +30,13 @@
     <!-- Display feedback here -->
     <div id="feedback"></div>
     <div class="home-button-container" id="home-button-container">
-      <button onclick="goHome()">Home</button>
+        <button onclick="goHome()">Home</button>
     </div>
-  </body>
+</body>
 
-  <script>
+<script>
     const message =
-      "Please enter valid word and definition (alphabet letters only)!";
+        "Please enter valid word and definition (alphabet letters only)!";
     const indexHTMLString = "index.html";
     const CONTENT_TYPE_STRING = "Content-Type";
     const APPLICATION_JSON_STRING = "application/json";
@@ -46,13 +47,13 @@
     const WORD_STRING = "word";
     const DEFINITION_STRING = "definition";
     // Regular expression pattern for alphabet letters only
-    const lettersOnlyRegex = /^[A-Za-z]+$/;
+    // const lettersOnlyRegex = /^[A-Za-z]+$/;
     // Regular expression pattern for alphabet letters and spaces only
-    const lettersWithSpacesAndPunctuationsRegex = /^[A-Za-z\s.,!?'"()]+$/;
+    // const lettersWithSpacesAndPunctuationsRegex = /^[A-Za-z\s.,!?'"()]+$/;
 
     const endPointRoot = "https://briankjkim.com/isalab6/";
     // Get the values of the input fields
-    const word = document.getElementById(WORD_STRING).value;
+    const word = document.getElementById("word").value;
     const definition = document.getElementById(DEFINITION_STRING).value;
     const wordLanguage = document.getElementById("wordLanguage").value;
     const definitionLanguage = document.getElementById("definitionLanguage").value;
@@ -61,127 +62,134 @@
 
 
     function goHome() {
-      window.location.href = indexHTMLString;
+        window.location.href = indexHTMLString;
     }
 
     function submitDefinition() {
-      // Check if word and definition are not empty and perform basic input validation
-      if (
-        word &&
-        definition &&
-        lettersOnlyRegex.test(word) &&
-        lettersWithSpacesAndPunctuationsRegex.test(definition)
-      ) {
-        // Create params object
-        const params = {
-          word: word,
-          definition: definition,
-          word_language: wordLanguage,
-          definition_language: definitionLanguage,
-        };
+        const word = document.getElementById("word").value;
+        const definition = document.getElementById(DEFINITION_STRING).value;
+        const wordLanguage = document.getElementById("wordLanguage").value;
+        const definitionLanguage = document.getElementById("definitionLanguage").value;
+        // Check if word and definition are not empty and perform basic input validation
+        if (
+            word &&
+            definition
+        ) {
+            // Create params object
+            const params = {
+                word: word,
+                definition: definition,
+                word_language: wordLanguage,
+                definition_language: definitionLanguage,
+            };
 
-        // Make xhttp request here
-        const xhttp = new XMLHttpRequest();
-        xhttp.open(POST_STRING, `${endPointRoot}/api/v1/definition/`, true);
-        xhttp.setRequestHeader(CONTENT_TYPE_STRING, APPLICATION_JSON_STRING);
-        xhttp.send(JSON.stringify(params));
-        xhttp.onreadystatechange = () => {
-          if (xhttp.readyState == 4 && xhttp.status == 200) {
-            let responseData = JSON.parse(xhttp.responseText);
-            let responseText = responseData.responseText;
+            // Make xhttp request here
+            const xhttp = new XMLHttpRequest();
+            xhttp.open(POST_STRING, `${endPointRoot}api/v1/definition/`, true);
+            xhttp.setRequestHeader(CONTENT_TYPE_STRING, APPLICATION_JSON_STRING);
+            xhttp.send(JSON.stringify(params));
+            xhttp.onreadystatechange = () => {
+                if (xhttp.readyState == 4 && xhttp.status == 200) {
+                    // console.log("xhttp object.responseText", xhttp.responseText);
+                    // let responseData = JSON.parse(xhttp.responseText);
+                    // let responseText = responseData.responseText;
+                    // console.log("response Data", responseData);
+                    document.getElementById(WORD_STRING).value = "";
+                    document.getElementById(DEFINITION_STRING).value = "";
+                    document.getElementById(FEED_BACK_STRING).innerHTML = xhttp.responseText;
+                }
+            };
+        } else {
+            // Display error message if either word or definition is empty or contains non-alphabet characters
             document.getElementById(WORD_STRING).value = "";
             document.getElementById(DEFINITION_STRING).value = "";
-            document.getElementById(FEED_BACK_STRING).innerHTML = responseText;
-          }
-        };
-      } else {
-        // Display error message if either word or definition is empty or contains non-alphabet characters
-        document.getElementById(WORD_STRING).value = "";
-        document.getElementById(DEFINITION_STRING).value = "";
-        document.getElementById(FEED_BACK_STRING).innerHTML = message;
-      }
+            document.getElementById(FEED_BACK_STRING).innerHTML = message;
+        }
     }
 
     function updateDefinition() {
-      if (
-        word &&
-        definition &&
-        lettersOnlyRegex.test(word) &&
-        lettersWithSpacesAndPunctuationsRegex.test(definition)
-      ) {
-        const params = {
-          word: word,
-          definition: definition,
-          word_language: wordLanguage,
-          definition_language: definitionLanguage,
-        };
+        const word = document.getElementById("word").value;
+        const definition = document.getElementById(DEFINITION_STRING).value;
+        const wordLanguage = document.getElementById("wordLanguage").value;
+        const definitionLanguage = document.getElementById("definitionLanguage").value;
+        if (
+            word &&
+            definition
+        ) {
+            const params = {
+                word: word,
+                definition: definition,
+                word_language: wordLanguage,
+                definition_language: definitionLanguage,
+            };
 
-        const xhttp = new XMLHttpRequest();
-        xhttp.open(PATCH_STRING, `${endPointRoot}/api/v1/definition/`, true);
-        xhttp.setRequestHeader(CONTENT_TYPE_STRING, APPLICATION_JSON_STRING);
-        xhttp.send(JSON.stringify(params));
-        xhttp.onreadystatechange = () => {
-          if (xhttp.readyState == 4 && xhttp.status == 200) {
-            let responseData = JSON.parse(xhttp.responseText);
-            let responseText = responseData.responseText;
-            document.getElementById(FEED_BACK_STRING).innerHTML = responseText;
-          }
-        };
-      } else {
-        document.getElementById(FEED_BACK_STRING).innerHTML = message;
-      }
+            const xhttp = new XMLHttpRequest();
+            xhttp.open(PATCH_STRING, `${endPointRoot}api/v1/definition/`, true);
+            xhttp.setRequestHeader(CONTENT_TYPE_STRING, APPLICATION_JSON_STRING);
+            xhttp.send(JSON.stringify(params));
+            xhttp.onreadystatechange = () => {
+                if (xhttp.readyState == 4 && xhttp.status == 200) {
+                    document.getElementById(FEED_BACK_STRING).innerHTML = xhttp.responseText;
+                }
+            };
+        } else {
+            document.getElementById(FEED_BACK_STRING).innerHTML = message;
+        }
     }
 
     function deleteDefinition() {
-      if (word && lettersOnlyRegex.test(word)) {
-        const xhttp = new XMLHttpRequest();
-        const url = `${endPointRoot}/api/v1/definition/${word}`;
-        xhttp.open(DELETE_STRING, url, true);
-        xhttp.send();
-        xhttp.onreadystatechange = () => {
-          if (xhttp.readyState == 4) {
-            if (xhttp.status == 200) {
-              let responseData = JSON.parse(xhttp.responseText);
-              let responseText = responseData.responseText;
-              document.getElementById(FEED_BACK_STRING).innerHTML =
-                responseText;
-            } else {
-              document.getElementById(FEED_BACK_STRING).innerHTML =
-                "Entry not found.";
-            }
-          }
-        };
-      } else {
-        document.getElementById(FEED_BACK_STRING).innerHTML = message;
-      }
+        const word = document.getElementById("word").value;
+        const definition = document.getElementById(DEFINITION_STRING).value;
+        const wordLanguage = document.getElementById("wordLanguage").value;
+        const definitionLanguage = document.getElementById("definitionLanguage").value;
+        if (word) {
+            const xhttp = new XMLHttpRequest();
+            const url = `${endPointRoot}api/v1/definition/${word}`;
+            xhttp.open(DELETE_STRING, url, true);
+            xhttp.send();
+            xhttp.onreadystatechange = () => {
+                if (xhttp.readyState == 4) {
+                    if (xhttp.status == 200) {
+                        document.getElementById(FEED_BACK_STRING).innerHTML =
+                            xhttp.responseText;
+                    } else {
+                        document.getElementById(FEED_BACK_STRING).innerHTML =
+                            "Entry not found.";
+                    }
+                }
+            };
+        } else {
+            document.getElementById(FEED_BACK_STRING).innerHTML = message;
+        }
     }
 
     document.addEventListener("DOMContentLoaded", function () {
-      const xhr = new XMLHttpRequest();
+        const xhr = new XMLHttpRequest();
 
-      xhr.onreadystatechange = function () {
-        if (xhr.readyState === XMLHttpRequest.DONE) {
-          if (xhr.status === 200) {
-            const data = JSON.parse(xhr.responseText);
-            console.log(data);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                    const data = JSON.parse(xhr.responseText);
+                    console.log(data);
 
-            data.forEach(function (language) {
-              const option = document.createElement("option");
-              option.text = language.language_name;
-              wordLanguageSelect.add(option);
+                    data.forEach(function (language) {
+                        const option = document.createElement("option");
+                        option.text = language.language_name;
+                        wordLanguageSelect.add(option);
 
-              const option2 = document.createElement("option");
-              option2.text = language.language_name;
-              definitionLanguageSelect.add(option2);
-            });
-          } else {
-            console.error("Error fetching languages:", xhr.status);
-          }
-        }
-      };
+                        const option2 = document.createElement("option");
+                        option2.text = language.language_name;
+                        definitionLanguageSelect.add(option2);
+                    });
+                } else {
+                    console.error("Error fetching languages:", xhr.status);
+                }
+            }
+        };
 
-      xhr.open("GET", "https://briankjkim.com/isalab6/api/v1/languages");
-      xhr.send();
+        xhr.open("GET", "https://briankjkim.com/isalab6/api/v1/languages");
+        xhr.send();
     });
-  </script>
+</script>
+
 </html>
