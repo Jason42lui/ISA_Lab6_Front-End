@@ -63,7 +63,7 @@
             xhttp.setRequestHeader("Content-Type", "application/json");
             xhttp.send(JSON.stringify(params));
             xhttp.onreadystatechange = () => {
-                if (xhttp.readyState == 4 && xhttp.status == 200) {
+                if (xhttp.readyState == 4 && xhttp.status == 201) {
                     // console.log("xhttp object.responseText", xhttp.responseText);
                     // let responseData = JSON.parse(xhttp.responseText);
                     // let responseText = responseData.responseText;
