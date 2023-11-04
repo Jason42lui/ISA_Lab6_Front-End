@@ -3,17 +3,17 @@
 
 <head>
     <title>Dictionary Search</title>
+    <script src="searchStrings.js"></script>
 </head>
 
 <body>
     <h1>Dictionary Search</h1>
-
+    
     <label for="searchTerm">Search Term:</label>
     <input type="text" id="searchTerm" placeholder="Enter a word to search"><br><br>
 
     <button onclick="searchDictionary()">Search</button>
 
-    <!-- Display search results here -->
     <div id="displayArea"></div>
     <div class="home-button-container" id="home-button-container">
         <button onclick="goHome()">Home</button>
@@ -21,51 +21,37 @@
 </body>
 <script>
 
-    const message = "Please enter valid word and definition (alphabet letters only)!";
-    const indexHTMLString = "index.html";
-    const DISPLAY_AREA = "displayArea";
-    const SEARCH_TERM = "searchTerm";
-    const GET_STRING = "GET";
-    const endPointRoot = "https://briankjkim.com/isalab6/api/v1/definition/";
-    const searchTerm = document.getElementById(SEARCH_TERM).value;
-    const displayArea = document.getElementById(DISPLAY_AREA);
-
+    console.log(messages)
     function goHome() {
-        window.location.href = indexHTMLString;
+        window.location.href = messages.indexHTMLString;
     }
 
     function searchDictionary() {
-        const searchTerm = document.getElementById(SEARCH_TERM).value;
-        const displayArea = document.getElementById(DISPLAY_AREA);
+        const searchTerm = document.getElementById(messages.searchTerm).value;
+        const displayArea = document.getElementById(messages.displayArea);
 
-        // Regular expression pattern for alphabet letters only
-        // const lettersOnlyRegex = /^[A-Za-z]+$/;
-
-        // Check if searchTerm is not empty and contain only alphabet letters
         if (searchTerm) {
             // Make xhttp request here
             const xhttp = new XMLHttpRequest();
-            xhttp.open(GET_STRING, endPointRoot + searchTerm, true);
+            xhttp.open(messages.getString, messages.endPointRoot + searchTerm, true);
             xhttp.onreadystatechange = function () {
                 if (this.readyState == 4) {
                     if (this.status == 200) {
                         // 200 Response
                         let responseText = this.responseText;
-                        document.getElementById(DISPLAY_AREA).innerHTML = responseText;
+                        document.getElementById(displayArea).innerHTML = responseText;
                     } else if (this.status == 404) {
                         // 404 Not Found Response
-                        let responseText = "Could not find the entry.";
-                        document.getElementById(DISPLAY_AREA).innerHTML = responseText;
+                        document.getElementById(displayArea).innerHTML = responseText;
                     } else {
-                        let responseText = "Something went wrong.";
-                        document.getElementById(DISPLAY_AREA).innerHTML = responseText;
+                        document.getElementById(displayArea).innerHTML = responseText;
                     }
                 }
             };
             xhttp.send();
         } else {
             // Display error message if either word or definition is empty or contains non-alphabet characters
-            document.getElementById(DISPLAY_AREA).innerHTML = message;
+            document.getElementById(displayArea).innerHTML = message;
         }
     }
 
