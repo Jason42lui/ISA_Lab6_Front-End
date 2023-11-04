@@ -63,21 +63,23 @@
             xhttp.setRequestHeader("Content-Type", "application/json");
             xhttp.send(JSON.stringify(params));
             xhttp.onreadystatechange = () => {
-                if (xhttp.readyState == 4 && xhttp.status == 201) {
-                    // console.log("xhttp object.responseText", xhttp.responseText);
-                    // let responseData = JSON.parse(xhttp.responseText);
-                    // let responseText = responseData.responseText;
-                    // console.log("response Data", responseData);
-                    document.getElementById("word").value = "";
-                    document.getElementById("definition").value = "";
-                    document.getElementById("feedback").innerHTML = xhttp.responseText;
+                if (xhttp.readyState == 4) {
+                    if (xhttp.status >= 200 && xhttp.status < 300) {
+                        // Success (2xx)
+                        document.getElementById("word").value = "";
+                        document.getElementById("definition").value = "";
+                        document.getElementById("feedback").innerHTML = xhttp.responseText;
+                    } else if (xhttp.status >= 400 && xhttp.status < 500) {
+                        // Client error (4xx)
+                        // Handle missing fields or word not found
+                        document.getElementById("feedback").innerHTML = xhttp.responseText;
+                    } else if (xhttp.status >= 500 && xhttp.status < 600) {
+                        // Server error (5xx)
+                        // Handle server error, e.g., db API call fail
+                        document.getElementById("feedback").innerHTML = xhttp.responseText;
+                    }
                 }
             };
-        } else {
-            // Display error message if either word or definition is empty or contains non-alphabet characters
-            document.getElementById("word").value = "";
-            document.getElementById("definition").value = "";
-            document.getElementById("feedback").innerHTML =  storeStrings.message;
         }
     }
 
