@@ -3,7 +3,9 @@
 
 <head>
     <title>Dictionary Search</title>
-    <script src="searchStrings.js"></script>
+    <script src="searchStrings.js">    
+        console.log(messages)
+    </script>
 </head>
 
 <body>
@@ -28,7 +30,6 @@
 
     function searchDictionary() {
         const searchTerm = document.getElementById(messages.searchTerm).value;
-        const displayArea = document.getElementById(messages.displayArea);
 
         if (searchTerm) {
             // Make xhttp request here
@@ -38,20 +39,19 @@
                 if (this.readyState == 4) {
                     if (this.status == 200) {
                         // 200 Response
-                        let responseText = this.responseText;
-                        document.getElementById(displayArea).innerHTML = responseText;
+                        document.getElementById(messages.displayArea).innerHTML = this.responseText;
                     } else if (this.status == 404) {
                         // 404 Not Found Response
-                        document.getElementById(displayArea).innerHTML = responseText;
+                        document.getElementById(messages.displayArea).innerHTML = responseText;
                     } else {
-                        document.getElementById(displayArea).innerHTML = responseText;
+                        document.getElementById(messages.displayArea).innerHTML = responseText;
                     }
                 }
             };
             xhttp.send();
         } else {
             // Display error message if either word or definition is empty or contains non-alphabet characters
-            document.getElementById(displayArea).innerHTML = message;
+            document.getElementById(messages.displayArea).innerHTML = message;
         }
     }
 
