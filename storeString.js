@@ -22,5 +22,5 @@ const storeStrings = {
     LANGUAGE_PATH: "api/v1/languages",
 };
 
-
+export default storeStrings;
 
