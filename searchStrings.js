@@ -6,5 +6,3 @@ const messages = {
     getString: "GET",
     endPointRoot: "https://briankjkim.com/isalab6/api/v1/definition/"
 };
-
-export default messages;
