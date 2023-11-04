@@ -104,7 +104,7 @@
             xhttp.setRequestHeader("Content-Type", "application/json");
             xhttp.send(JSON.stringify(params));
             xhttp.onreadystatechange = () => {
-                if (xhttp.readyState == 4 && xhttp.status == 200) {
+                if (xhttp.readyState == 4 && xhttp.status >= 200 && xhttp.status < 600) {
                     document.getElementById("feedback").innerHTML = xhttp.responseText;
                 }
             };
@@ -125,10 +125,10 @@
             xhttp.send();
             xhttp.onreadystatechange = () => {
                 if (xhttp.readyState == 4) {
-                    if (xhttp.status == 200) {
+                    if (xhttp.status >= 200 && xhttp.status < 600) {
                         document.getElementById("feedback").innerHTML = xhttp.responseText;
                     } else {
-                        document.getElementById("feedback").innerHTML = storeStrings.ENTRY_NOT_FOUND_MESSAGE;
+                        document.getElementById("feedback").innerHTML = "Could not send request.";
                     }
                 }
             };
